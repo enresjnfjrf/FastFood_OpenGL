@@ -1,0 +1,14 @@
+# Игнорировать Visual Studio кэш и настройки
+.vs/
+*.user
+*.suo
+*.VC.db
+*.ipch
+*.exe
+*.pdb
+*.cache
+*.log
+
+# Игнорировать кэш IntelliSense
+*.ipch
+*.db
