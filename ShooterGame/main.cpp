@@ -152,8 +152,9 @@ int main(void)
     //Model chair("model/chair/chair.obj", false);
     //Model drone("model/drone/Drone.obj", false);
     Model BusterDrone("model/drone2/source/model/BusterDrone.obj", false);
-    Model People("model/small_people/obj/people.obj", true);
-    Model Donut("model/people_donut/obj/obj file.obj", true);
+    Model People("model/small_people/people.obj", true);
+    Model Donut("model/people_donut/obj file.obj", true);
+    Model Baran("model/baran/obj file.obj", true);
 
 
     ModelTransform lightTrans = { glm::vec3(0.f, 0.f, 0.f),
@@ -344,14 +345,17 @@ int main(void)
 
         //People_donut model
         model = glm::mat4(1.f);
-        model = glm::translate(model, glm::vec3(2.0f, 0.0f, 0.0f));
+        model = glm::translate(model, glm::vec3(1.5f, 0.0f, 0.0f));
         model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
-        model_shader->Use();
-        model_shader->SetMatrix4F("pv", pv);
         model_shader->SetMatrix4F("model", model);
-        model_shader->SetFloat("shininess", 64.0f);
-        model_shader->SetVec3("viewPos", camera.GetPosition());
         Donut.Draw(model_shader);
+
+        //Baran model
+        model = glm::mat4(1.f);
+        model = glm::translate(model, glm::vec3(-1.5f, 0.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+        model_shader->SetMatrix4F("model", model);
+        Baran.Draw(model_shader);
 
         active_lights = 0;
         for (int i = 0; i < lights.size(); i++)
