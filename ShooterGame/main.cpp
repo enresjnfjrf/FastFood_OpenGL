@@ -9,6 +9,7 @@
 #include "Camera.h"
 #include "Light.h"
 #include "Model.h"
+#include "Building.h"
 
 int type_light = 0;
 
@@ -147,6 +148,7 @@ int main(void)
 
     Shader* light_shader = new Shader("shaders\\light.vert", "shaders\\light.frag");
     Shader* model_shader = new Shader("shaders\\model.vert", "shaders\\model.frag");
+    Shader* wall_shader = new Shader("shaders\\wall.vert", "shaders\\wall.frag");
 
     //Model backpack("model/Backpack/backpack.obj", false);
     //Model chair("model/chair/chair.obj", false);
@@ -156,6 +158,10 @@ int main(void)
     Model Donut("model/people_donut/obj file.obj", true);
     Model Baran("model/baran/obj file.obj", true);
 
+    //Здание
+    Building building;
+    building.addRoom(0.0f, 0.0f);
+    building.addRoom(5.0f, 0.0f);
 
     ModelTransform lightTrans = { glm::vec3(0.f, 0.f, 0.f),
                                   glm::vec3(0.f, 0.f, 0.f),
@@ -240,9 +246,8 @@ int main(void)
     glfwSetCursorPos(window, lastX, lastY);
     while (!glfwWindowShouldClose(window))
     {
-        //glClearColor(1.0f, 0.f, 1.f, 1.0f);
+        glClearColor(1.0f, 0.f, 1.f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 
         float currentFrame = glfwGetTime();
         float deltaTime = currentFrame - lastFrame;
@@ -260,53 +265,13 @@ int main(void)
 
         flashLight->setPosition(camera.GetPosition() - camera.GetUp() * 0.1f);
         flashLight->setDirection(camera.GetFront());
-
         //redLight->setPosition(glm::vec3(2.f, 0.8f * cos(glfwGetTime() * 2), 1.5f * sin(glfwGetTime() * 2)));
-
         //blueLight->setPosition(glm::vec3(2.f, 0.8f * cos(glfwGetTime() * 2 + glm::pi<float>()), 1.5f * sin(glfwGetTime() * 2 + glm::pi<float>())));
 
         glm::mat4 p = camera.GetProjectionMatrix();
         glm::mat4 v = camera.GetViewMatrix();
         glm::mat4 pv = p * v;
-
         glm::mat4 model;
-
-
-        /*for (int i = 0; i < cubes_count; i++) {
-
-            model = glm::mat4(1.f);
-            model = glm::translate(model, cubeTrans[i].position);
-            model = glm::rotate(model, glm::radians(cubeTrans[i].rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-            model = glm::rotate(model, glm::radians(cubeTrans[i].rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-            model = glm::rotate(model, glm::radians(cubeTrans[i].rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
-            model = glm::scale(model, cubeTrans[i].scale);
-
-            polygon_shader->Use();
-            polygon_shader->SetMatrix4F("pv", pv);
-            polygon_shader->SetMatrix4F("model", model);
-            polygon_shader->SetVec3("viewPos", camera.GetPosition());
-
-            polygon_shader->SetInt("light.type", type_light);
-            polygon_shader->SetVec3("light.position", lights[type_light].position);
-            polygon_shader->SetVec3("light.direction", lights[type_light].direction);
-            polygon_shader->SetFloat("light.cutOff", lights[type_light].cutOff);
-            polygon_shader->SetVec3("light.ambient", lights[type_light].ambient);
-            polygon_shader->SetVec3("light.diffuse", lights[type_light].diffuse);
-            polygon_shader->SetVec3("light.specular", lights[type_light].specular);
-            polygon_shader->SetFloat("light.constant", lights[type_light].constant);
-            polygon_shader->SetFloat("light.linear", lights[type_light].linear);
-            polygon_shader->SetFloat("light.quadratic", lights[type_light].quadratic);
-
-
-            polygon_shader->SetVec3("material.ambient", cubeMaterial.ambient);
-            polygon_shader->SetVec3("material.diffuse", cubeMaterial.diffuse);
-            polygon_shader->SetVec3("material.specular", cubeMaterial.specular);
-            polygon_shader->SetFloat("material.shininess", cubeMaterial.shininess);
-
-            glBindTexture(GL_TEXTURE_2D, box_texture);
-            glBindVertexArray(vao);
-            glDrawArrays(GL_TRIANGLES, 0, 36);
-        }*/
 
         //LIGHT
         light_shader->Use();
@@ -314,16 +279,16 @@ int main(void)
         glBindVertexArray(VAO);
 
         //RedLight
-        lightTrans.position = redLight->getPosition();
-        lightTrans.setScale(0.1f);
-        model = glm::mat4(1.f);
-        model = glm::translate(model, lightTrans.position);
-        model = glm::scale(model, lightTrans.scale);
-        light_shader->SetMatrix4F("model", model);
-        light_shader->SetVec3("lightColor", glm::vec3(1.0f, 0.2f, 0.2f));
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+        //lightTrans.position = redLight->getPosition();
+        //lightTrans.setScale(0.1f);
+        //model = glm::mat4(1.f);
+        //model = glm::translate(model, lightTrans.position);
+        //model = glm::scale(model, lightTrans.scale);
+        //light_shader->SetMatrix4F("model", model);
+        //light_shader->SetVec3("lightColor", glm::vec3(1.0f, 0.2f, 0.2f));
+        //glDrawArrays(GL_TRIANGLES, 0, 36);
 
-        //BlueLight
+        ////BlueLight
         lightTrans.position = blueLight->getPosition();
         model = glm::mat4(1.f);
         model = glm::translate(model, lightTrans.position);
@@ -332,30 +297,39 @@ int main(void)
         light_shader->SetVec3("lightColor", glm::vec3(0.2f, 0.2f, 1.0f));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
-        //White_people model
-        model = glm::mat4(1.f);
-        model = glm::translate(model, glm::vec3(0.0f,0.0f,0.0f));
-        model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
-        model_shader->Use();
-        model_shader->SetMatrix4F("pv", pv);
-        model_shader->SetMatrix4F("model", model);
-        model_shader->SetFloat("shininess", 64.0f);
-        model_shader->SetVec3("viewPos", camera.GetPosition());
-        People.Draw(model_shader);
+        ////White_people model
+        //model = glm::mat4(1.f);
+        //model = glm::translate(model, glm::vec3(0.0f,0.0f,0.0f));
+        //model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+        //model_shader->Use();
+        //model_shader->SetMatrix4F("pv", pv);
+        //model_shader->SetMatrix4F("model", model);
+        //model_shader->SetFloat("shininess", 64.0f);
+        //model_shader->SetVec3("viewPos", camera.GetPosition());
+        //People.Draw(model_shader);
 
-        //People_donut model
-        model = glm::mat4(1.f);
-        model = glm::translate(model, glm::vec3(1.5f, 0.0f, 0.0f));
-        model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
-        model_shader->SetMatrix4F("model", model);
-        Donut.Draw(model_shader);
+        ////People_donut model
+        //model = glm::mat4(1.f);
+        //model = glm::translate(model, glm::vec3(1.5f, 0.0f, 0.0f));
+        //model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+        //model_shader->SetMatrix4F("model", model);
+        //Donut.Draw(model_shader);
 
-        //Baran model
+        ////Baran model
+        //model = glm::mat4(1.f);
+        //model = glm::translate(model, glm::vec3(-1.5f, 0.0f, 0.0f));
+        //model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+        //model_shader->SetMatrix4F("model", model);
+        //Baran.Draw(model_shader);
+
+        //Здание
         model = glm::mat4(1.f);
-        model = glm::translate(model, glm::vec3(-1.5f, 0.0f, 0.0f));
-        model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
-        model_shader->SetMatrix4F("model", model);
-        Baran.Draw(model_shader);
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+        wall_shader->Use();
+        wall_shader->SetMatrix4F("pv", pv);
+        wall_shader->SetMatrix4F("model", model);
+        building.Draw();
 
         active_lights = 0;
         for (int i = 0; i < lights.size(); i++)
@@ -363,12 +337,11 @@ int main(void)
             active_lights += lights[i]->putInshader(model_shader, active_lights);
         }
         model_shader->SetInt("lights_count", active_lights);
-        
+
         //backpack.Draw(model_shader);
         //chair.Draw(model_shader);
         //drone.Draw(model_shader);
         
-
         glfwSwapBuffers(window);
 
         glfwPollEvents();
@@ -377,6 +350,7 @@ int main(void)
     //delete polygon_shader;
     delete light_shader;
     delete model_shader;
+    delete wall_shader;
     glfwDestroyWindow(window);
     glfwTerminate();
     return 0;
