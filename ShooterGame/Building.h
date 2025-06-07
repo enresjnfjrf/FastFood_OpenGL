@@ -10,7 +10,7 @@ class Building
 {
 public:
 	~Building();
-	void addRoom(float x, float z);
+	void addRoom(float x, float y, float z, float width, float height, float lenght, float thickness);
 	void Draw();
 
 private:

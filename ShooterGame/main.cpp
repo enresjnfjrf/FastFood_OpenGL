@@ -160,8 +160,10 @@ int main(void)
 
     //Здание
     Building building;
-    building.addRoom(0.0f, 0.0f);
-    building.addRoom(5.0f, 0.0f);
+    //building.addRoom(x, y, z, width, height, lenght, thickness);
+    building.addRoom(0.0f, 0.0f, 0.0f, 5.0f, 4.0f, 5.0f, 0.1f);
+    //building.addRoom(5.0f, 5.0f, 0.0f);
+    //building.addRoom(15.0f, 5.0f, 0.0f);
 
     ModelTransform lightTrans = { glm::vec3(0.f, 0.f, 0.f),
                                   glm::vec3(0.f, 0.f, 0.f),
@@ -246,7 +248,7 @@ int main(void)
     glfwSetCursorPos(window, lastX, lastY);
     while (!glfwWindowShouldClose(window))
     {
-        glClearColor(1.0f, 0.f, 1.f, 1.0f);
+        //glClearColor(1.0f, 0.f, 1.f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         float currentFrame = glfwGetTime();
@@ -321,7 +323,6 @@ int main(void)
         //model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
         //model_shader->SetMatrix4F("model", model);
         //Baran.Draw(model_shader);
-
         //Здание
         model = glm::mat4(1.f);
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));

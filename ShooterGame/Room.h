@@ -10,13 +10,16 @@ class Room
 private:
 	Wall* floor;
 	std::vector<Wall*> walls;
-	float h = 2.5;
+	float x, y, z;
+	float height;
+	float width;
+	float lenght;
+	float thickness;
 
-	void createFloor(float x, float z);
-	void createWalls(float x, float z);
+	void createWall(float x, float y, float z, float width, float height, float lenght);
 
 public:
-	Room(float x, float z);
+	Room(float x, float y, float z, float width, float height, float lenght, float thickness);
 	~Room();
 	void Draw();
 };
