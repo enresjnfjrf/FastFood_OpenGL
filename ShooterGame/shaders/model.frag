@@ -59,6 +59,7 @@ vec3 CalcDiffusePlusSpecular(int i, vec3 lightDir)
 
 void main()
 {
+    vec3 result = vec3(0.0);
     vec3 lresult;
     for (int i = 0; i<lights_count; i++)
     {
@@ -106,7 +107,7 @@ void main()
                 }
             }
         }
-        frag_color += vec4(lresult, 1.0f);
+        result += vec3(lresult);
     }
-
+    frag_color = vec4(result, 1.0);
 }
