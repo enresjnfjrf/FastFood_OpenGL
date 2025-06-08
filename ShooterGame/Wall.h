@@ -8,7 +8,7 @@
 class Wall
 {
 public:
-	Wall(const float* vertices, size_t vertexSize, const std::string& diffusePath, const std::string& normalPath, const std::string& roughnessPath);
+	Wall(const float* vertices, size_t vertexSize, const std::string& diffusePath, const std::string& normalPath, const std::string& roughnessPath, float u, float v);
 	~Wall();
 
 	void Draw(Shader* shader);
@@ -19,6 +19,7 @@ private:
 	unsigned int diffuseTex = 0;
 	unsigned int normalTex	= 0;
 	unsigned int roughnessTex = 0;
+	float u, v;
 
 	unsigned int LoadTexture(const std::string& path);
 };

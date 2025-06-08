@@ -12,7 +12,7 @@ public:
 	Room(float x, float y, float z, float width, float height, float length, float thickness);
 	~Room();
 	void Draw(Shader* shader);
-	void createWall(float x, float y, float z, float width, float height, float length, const std::string& diffuse, const std::string& normal, const std::string& roughness);
+	void createWall(float x, float y, float z, float width, float height, float length, const std::string& diffuse, const std::string& normal, const std::string& roughness, float u, float v);
 
 	float getX() const { return x; }
 	float getY() const { return y; }

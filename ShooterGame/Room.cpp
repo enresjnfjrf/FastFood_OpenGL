@@ -9,7 +9,7 @@ Room::~Room() {
     walls.clear();
 }
 
-void Room::createWall(float x, float y, float z, float width, float height, float length, const std::string& diffuse, const std::string& normal, const std::string& roughness)
+void Room::createWall(float x, float y, float z, float width, float height, float length, const std::string& diffuse, const std::string& normal, const std::string& roughness, float u, float v)
 {
     float y_h = y + height; // y + h
     float x_l = x - length; // x + l
@@ -64,7 +64,7 @@ void Room::createWall(float x, float y, float z, float width, float height, floa
         x,    y_h,  z_w,  0.0f, 1.0f
     };
 
-    walls.push_back(new Wall(wall, sizeof(wall), diffuse, normal, roughness));
+    walls.push_back(new Wall(wall, sizeof(wall), diffuse, normal, roughness, u, v));
 }
 
 void Room::Draw(Shader* shader) {

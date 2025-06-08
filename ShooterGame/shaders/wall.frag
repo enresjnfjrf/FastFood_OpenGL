@@ -13,5 +13,5 @@ void main() {
     vec3 normalColor = texture(normalTex, TexCoord).rgb;
     float roughnessValue = texture(roughnessTex, TexCoord).r;
 
-    FragColor = vec4(diffuseColor * normalColor, roughnessValue);
+    FragColor = vec4(diffuseColor, roughnessValue);
 }

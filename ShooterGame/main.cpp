@@ -5,6 +5,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 #include <vector>
+#include <string>
 #include "Shader.h"
 #include "Camera.h"
 #include "Light.h"
@@ -164,7 +165,7 @@ int main(void)
     //new Room(x, y, z, width, height, lenght, thickness);
 
     // MainRoom
-    Room* mainRoom = new Room(-1.0f, 0.0f, 0.0f, 1.0f, 0.7f, 1.0f, 0.05f);
+    Room* mainRoom = new Room(-1.0f, 0.0f, 0.0f, 3.0f, 1.0f, 4.0f, 0.05f);
     float x = mainRoom->getX();
     float y = mainRoom->getY();
     float z = mainRoom->getZ();
@@ -172,12 +173,18 @@ int main(void)
     float height = mainRoom->getHeight();
     float length = mainRoom->getLength();
     float thickness = mainRoom->getThickness();
-    mainRoom->createWall(x - thickness, y - thickness, z, width, thickness, length, "texture/wall/Bricks092_1K-JPG_Color.jpg", "texture/wall/Bricks092_1K-JPG_NormalGL.jpg", "texture/wall/Bricks092_1K-JPG_Roughness.jpg");
-    mainRoom->createWall(x, y, z, width, height / 3.0f, thickness, "texture/wall/Bricks092_1K-JPG_Color.jpg", "texture/wall/Bricks092_1K-JPG_NormalGL.jpg", "texture/wall/Bricks092_1K-JPG_Roughness.jpg");
-    mainRoom->createWall(x, y + (2.0f * height) / 3.0f, z, width, height / 3.0f, thickness, "texture/wall/Bricks092_1K-JPG_Color.jpg", "texture/wall/Bricks092_1K-JPG_NormalGL.jpg", "texture/wall/Bricks092_1K-JPG_Roughness.jpg");
-    mainRoom->createWall(x - thickness, y, z - thickness, thickness, height, length, "texture/wall/Bricks092_1K-JPG_Color.jpg", "texture/wall/Bricks092_1K-JPG_NormalGL.jpg", "texture/wall/Bricks092_1K-JPG_Roughness.jpg");
-    mainRoom->createWall(x - length - thickness, y, z, width, height, thickness, "texture/wall/Bricks092_1K-JPG_Color.jpg", "texture/wall/Bricks092_1K-JPG_NormalGL.jpg", "texture/wall/Bricks092_1K-JPG_Roughness.jpg");
-    mainRoom->createWall(x - thickness, y, z + width, thickness, height, length, "texture/wall/Bricks092_1K-JPG_Color.jpg", "texture/wall/Bricks092_1K-JPG_NormalGL.jpg", "texture/wall/Bricks092_1K-JPG_Roughness.jpg");
+    std::string brick_wall = "texture/brick_wall/";
+    std::string whiteBrick_wall = "texture/white_brick_wall/";
+    std::string white_floor = "texture/white_floor/";
+    std::string black_floor = "texture/black_floor/";
+    std::string matte_cashRegister = "texture/matte_cashRegister/";
+    std::string blackBrick_wall = "texture/black_brick_wall/";
+    mainRoom->createWall(x - thickness, y - thickness, z, width, thickness, length, black_floor + "Wood049_2K-JPG_Color.jpg", black_floor + "Tiles007_2K-JPG_NormalGL.jpg", black_floor + "Tiles007_2K-JPG_Roughness.jpg",7.0f,6.0f);
+    mainRoom->createWall(x, y, z, width, height / 3.0f, thickness, matte_cashRegister + "Plaster006_1K-JPG_Color.jpg", matte_cashRegister + "Plaster006_1K-JPG_NormalGL.jpg", matte_cashRegister + "Plaster006_1K-JPG_Roughness.jpg", 1.0f, 1.0f);
+    mainRoom->createWall(x, y + (2.0f * height) / 3.0f, z, width, height / 3.0f, thickness, matte_cashRegister + "Plaster006_1K-JPG_Color.jpg", matte_cashRegister + "Plaster006_1K-JPG_NormalGL.jpg", matte_cashRegister + "Plaster006_1K-JPG_Roughness.jpg", 2.0f, 1.0f);
+    mainRoom->createWall(x - thickness, y, z - thickness, thickness, height, length, blackBrick_wall + "Bricks055_1K-JPG_Color.jpg", blackBrick_wall + "Bricks066_1K-JPG_NormalGL.jpg", blackBrick_wall + "Bricks066_1K-JPG_Roughness.jpg",3.0f, 2.0f);
+    mainRoom->createWall(x - length - thickness, y, z, width, height, thickness, blackBrick_wall + "Bricks055_1K-JPG_Color.jpg", blackBrick_wall + "Bricks066_1K-JPG_NormalGL.jpg", blackBrick_wall + "Bricks066_1K-JPG_Roughness.jpg",3.0f, 2.0f);
+    mainRoom->createWall(x - thickness, y, z + width, thickness, height, length, blackBrick_wall + "Bricks055_1K-JPG_Color.jpg", blackBrick_wall + "Bricks066_1K-JPG_NormalGL.jpg", blackBrick_wall + "Bricks066_1K-JPG_Roughness.jpg",3.0f, 2.0f);
     building.addRoom(mainRoom);
 
     ModelTransform lightTrans = { glm::vec3(0.f, 0.f, 0.f),
@@ -260,7 +267,7 @@ int main(void)
     glfwSetCursorPos(window, lastX, lastY);
     while (!glfwWindowShouldClose(window))
     {
-        glClearColor(1.0f, 0.f, 1.f, 1.0f);
+        //glClearColor(1.0f, 0.f, 1.f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         float currentFrame = glfwGetTime();
@@ -311,14 +318,13 @@ int main(void)
         light_shader->SetVec3("lightColor", glm::vec3(0.2f, 0.2f, 1.0f));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
-        //Здание
+        //Bulding
         model = glm::mat4(1.f);
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
         model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
         wall_shader->Use();
         wall_shader->SetMatrix4F("pv", pv);
         wall_shader->SetMatrix4F("model", model);
-        wall_shader->SetVec2("uvScale", glm::vec2(5.0f, 4.0f));
         building.Draw(wall_shader);
 
         model_shader->Use();
@@ -334,14 +340,14 @@ int main(void)
         //////People_donut model
         model = glm::mat4(1.f);
         model = glm::translate(model, glm::vec3(1.5f, 0.0f, -1.0f));
-        model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+        model = glm::scale(model, glm::vec3(0.01f, 0.01f, 0.01f));
         model_shader->SetMatrix4F("model", model);
         Donut.Draw(model_shader);
 
         //////Baran model
         model = glm::mat4(1.f);
-        model = glm::translate(model, glm::vec3(-0.5f, 0.0f, 0.5f));
-        model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+        model = glm::translate(model, glm::vec3(-1.5f, 0.0f, 0.5f));
+        model = glm::scale(model, glm::vec3(0.045f, 0.045f, 0.045f));
         model_shader->SetMatrix4F("model", model);
         Baran.Draw(model_shader);
 

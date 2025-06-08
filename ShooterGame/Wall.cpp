@@ -3,7 +3,7 @@
 #include <stb_image.h>
 #include <iostream>
 
-Wall::Wall(const float* vertices, size_t vertexSize, const std::string& diffusePath, const std::string& normalPath, const std::string& roughnessPath)
+Wall::Wall(const float* vertices, size_t vertexSize, const std::string& diffusePath, const std::string& normalPath, const std::string& roughnessPath, float u, float v):u(u),v(v)
 {
     vertexCount = vertexSize / (5 * sizeof(float)); 
 
@@ -38,6 +38,7 @@ Wall::~Wall()
 
 void Wall::Draw(Shader* shader)
 {
+    shader->SetVec2("uvScale", glm::vec2(u, v));
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, diffuseTex);
     shader->SetInt("diffuseTex", 0);
