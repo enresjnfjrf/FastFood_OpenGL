@@ -12,7 +12,7 @@ class Building
 public:
 	~Building();
 	void addRoom(Room* room);
-	void Draw();
+	void Draw(Shader* shader);
 
 private:
 	std::vector<Room*> rooms;

@@ -8,10 +8,10 @@
 class Wall
 {
 public:
-	Wall(const float* vertices, size_t vertexSize);
+	Wall(const float* vertices, size_t vertexSize, const std::string& diffusePath, const std::string& normalPath, const std::string& roughnessPath);
 	~Wall();
 
-	void Draw();
+	void Draw(Shader* shader);
 
 private:
 	unsigned int vao, vbo;

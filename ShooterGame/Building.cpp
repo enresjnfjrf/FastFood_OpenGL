@@ -11,7 +11,7 @@ void Building::addRoom(Room* room)
     rooms.push_back(room);
 }
 
-void Building::Draw() {
+void Building::Draw(Shader* shader) {
     for (Room* room : rooms)
-        room->Draw();
+        room->Draw(shader);
 }

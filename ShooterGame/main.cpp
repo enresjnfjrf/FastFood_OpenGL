@@ -164,7 +164,7 @@ int main(void)
     //new Room(x, y, z, width, height, lenght, thickness);
 
     // MainRoom
-    Room* mainRoom = new Room(0.0f, 0.0f, 0.0f, 5.0f, 4.0f, 5.0f, 0.1f);
+    Room* mainRoom = new Room(-1.0f, 0.0f, 0.0f, 1.0f, 0.7f, 1.0f, 0.05f);
     float x = mainRoom->getX();
     float y = mainRoom->getY();
     float z = mainRoom->getZ();
@@ -172,12 +172,12 @@ int main(void)
     float height = mainRoom->getHeight();
     float length = mainRoom->getLength();
     float thickness = mainRoom->getThickness();
-    mainRoom->createWall(x - thickness, y - thickness, z, width, thickness, length);
-    /*mainRoom->createWall(x, y, z, width, height / 3.0f, thickness);
-    mainRoom->createWall(x, y + (2.0f * height) / 3.0f, z, width, height / 3.0f, thickness);
-    mainRoom->createWall(x - thickness, y, z - thickness, thickness, height, length);
-    mainRoom->createWall(x - length - thickness, y, z + width, -width, height, thickness);
-    mainRoom->createWall(x - length - thickness, y, z + width, thickness, height, -length);*/
+    mainRoom->createWall(x - thickness, y - thickness, z, width, thickness, length, "texture/wall/Bricks092_1K-JPG_Color.jpg", "texture/wall/Bricks092_1K-JPG_NormalGL.jpg", "texture/wall/Bricks092_1K-JPG_Roughness.jpg");
+    mainRoom->createWall(x, y, z, width, height / 3.0f, thickness, "texture/wall/Bricks092_1K-JPG_Color.jpg", "texture/wall/Bricks092_1K-JPG_NormalGL.jpg", "texture/wall/Bricks092_1K-JPG_Roughness.jpg");
+    mainRoom->createWall(x, y + (2.0f * height) / 3.0f, z, width, height / 3.0f, thickness, "texture/wall/Bricks092_1K-JPG_Color.jpg", "texture/wall/Bricks092_1K-JPG_NormalGL.jpg", "texture/wall/Bricks092_1K-JPG_Roughness.jpg");
+    mainRoom->createWall(x - thickness, y, z - thickness, thickness, height, length, "texture/wall/Bricks092_1K-JPG_Color.jpg", "texture/wall/Bricks092_1K-JPG_NormalGL.jpg", "texture/wall/Bricks092_1K-JPG_Roughness.jpg");
+    mainRoom->createWall(x - length - thickness, y, z, width, height, thickness, "texture/wall/Bricks092_1K-JPG_Color.jpg", "texture/wall/Bricks092_1K-JPG_NormalGL.jpg", "texture/wall/Bricks092_1K-JPG_Roughness.jpg");
+    mainRoom->createWall(x - thickness, y, z + width, thickness, height, length, "texture/wall/Bricks092_1K-JPG_Color.jpg", "texture/wall/Bricks092_1K-JPG_NormalGL.jpg", "texture/wall/Bricks092_1K-JPG_Roughness.jpg");
     building.addRoom(mainRoom);
 
     ModelTransform lightTrans = { glm::vec3(0.f, 0.f, 0.f),
@@ -318,7 +318,8 @@ int main(void)
         wall_shader->Use();
         wall_shader->SetMatrix4F("pv", pv);
         wall_shader->SetMatrix4F("model", model);
-        building.Draw();
+        wall_shader->SetVec2("uvScale", glm::vec2(5.0f, 4.0f));
+        building.Draw(wall_shader);
 
         model_shader->Use();
         model_shader->SetMatrix4F("pv", pv);
@@ -326,21 +327,21 @@ int main(void)
         //////White_people model
         model = glm::mat4(1.f);
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.0f));
-        model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+        model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
         model_shader->SetMatrix4F("model", model);
         People.Draw(model_shader);
 
         //////People_donut model
         model = glm::mat4(1.f);
         model = glm::translate(model, glm::vec3(1.5f, 0.0f, -1.0f));
-        model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+        model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
         model_shader->SetMatrix4F("model", model);
         Donut.Draw(model_shader);
 
         //////Baran model
         model = glm::mat4(1.f);
-        model = glm::translate(model, glm::vec3(-1.5f, 0.0f, -1.0f));
-        model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+        model = glm::translate(model, glm::vec3(-0.5f, 0.0f, 0.5f));
+        model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
         model_shader->SetMatrix4F("model", model);
         Baran.Draw(model_shader);
 
