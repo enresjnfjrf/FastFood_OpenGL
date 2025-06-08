@@ -311,31 +311,6 @@ int main(void)
         light_shader->SetVec3("lightColor", glm::vec3(0.2f, 0.2f, 1.0f));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
-        //////White_people model
-        model = glm::mat4(1.f);
-        model = glm::translate(model, glm::vec3(0.0f,0.0f,0.0f));
-        model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
-        model_shader->Use();
-        model_shader->SetMatrix4F("pv", pv);
-        model_shader->SetMatrix4F("model", model);
-        model_shader->SetFloat("shininess", 64.0f);
-        model_shader->SetVec3("viewPos", camera.GetPosition());
-        People.Draw(model_shader);
-
-        //////People_donut model
-        model = glm::mat4(1.f);
-        model = glm::translate(model, glm::vec3(1.5f, 0.0f, 0.0f));
-        model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
-        model_shader->SetMatrix4F("model", model);
-        Donut.Draw(model_shader);
-
-        //////Baran model
-        model = glm::mat4(1.f);
-        model = glm::translate(model, glm::vec3(-1.5f, 0.0f, 0.0f));
-        model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
-        model_shader->SetMatrix4F("model", model);
-        Baran.Draw(model_shader);
-
         //Здание
         model = glm::mat4(1.f);
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
@@ -344,6 +319,30 @@ int main(void)
         wall_shader->SetMatrix4F("pv", pv);
         wall_shader->SetMatrix4F("model", model);
         building.Draw();
+
+        model_shader->Use();
+        model_shader->SetMatrix4F("pv", pv);
+
+        //////White_people model
+        model = glm::mat4(1.f);
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.0f));
+        model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+        model_shader->SetMatrix4F("model", model);
+        People.Draw(model_shader);
+
+        //////People_donut model
+        model = glm::mat4(1.f);
+        model = glm::translate(model, glm::vec3(1.5f, 0.0f, -1.0f));
+        model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+        model_shader->SetMatrix4F("model", model);
+        Donut.Draw(model_shader);
+
+        //////Baran model
+        model = glm::mat4(1.f);
+        model = glm::translate(model, glm::vec3(-1.5f, 0.0f, -1.0f));
+        model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+        model_shader->SetMatrix4F("model", model);
+        Baran.Draw(model_shader);
 
         active_lights = 0;
         for (int i = 0; i < lights.size(); i++)
