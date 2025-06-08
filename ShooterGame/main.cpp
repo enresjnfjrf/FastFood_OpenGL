@@ -10,6 +10,7 @@
 #include "Light.h"
 #include "Model.h"
 #include "Building.h"
+#include "Room.h"
 
 int type_light = 0;
 
@@ -146,12 +147,12 @@ int main(void)
 
 #pragma endregion
 
+    Camera camera(glm::vec3(0.0f, 0.0f, 1.0f));
+
     Shader* light_shader = new Shader("shaders\\light.vert", "shaders\\light.frag");
     Shader* model_shader = new Shader("shaders\\model.vert", "shaders\\model.frag");
     Shader* wall_shader = new Shader("shaders\\wall.vert", "shaders\\wall.frag");
 
-    //Model backpack("model/Backpack/backpack.obj", false);
-    //Model chair("model/chair/chair.obj", false);
     //Model drone("model/drone/Drone.obj", false);
     Model BusterDrone("model/drone2/source/model/BusterDrone.obj", false);
     Model People("model/small_people/people.obj", true);
@@ -160,10 +161,24 @@ int main(void)
 
     //Здание
     Building building;
-    //building.addRoom(x, y, z, width, height, lenght, thickness);
-    building.addRoom(0.0f, 0.0f, 0.0f, 5.0f, 4.0f, 5.0f, 0.1f);
-    //building.addRoom(5.0f, 5.0f, 0.0f);
-    //building.addRoom(15.0f, 5.0f, 0.0f);
+    //new Room(x, y, z, width, height, lenght, thickness);
+
+    // MainRoom
+    Room* mainRoom = new Room(0.0f, 0.0f, 0.0f, 5.0f, 4.0f, 5.0f, 0.1f);
+    float x = mainRoom->getX();
+    float y = mainRoom->getY();
+    float z = mainRoom->getZ();
+    float width = mainRoom->getWidth();
+    float height = mainRoom->getHeight();
+    float length = mainRoom->getLength();
+    float thickness = mainRoom->getThickness();
+    mainRoom->createWall(x - thickness, y - thickness, z, width, thickness, length);
+    mainRoom->createWall(x, y, z, width, height / 3.0f, thickness);
+    mainRoom->createWall(x, y + (2.0f * height) / 3.0f, z, width, height / 3.0f, thickness);
+    mainRoom->createWall(x - thickness, y, z - thickness, thickness, height, length);
+    mainRoom->createWall(x - length - thickness, y, z + width, -width, height, thickness);
+    mainRoom->createWall(x - length - thickness, y, z + width, thickness, height, -length);
+    building.addRoom(mainRoom);
 
     ModelTransform lightTrans = { glm::vec3(0.f, 0.f, 0.f),
                                   glm::vec3(0.f, 0.f, 0.f),
@@ -174,8 +189,6 @@ int main(void)
                              glm::vec3(1, 0.829, 0.829),
                              glm::vec3(0.296648, 0.296648, 0.296648),
                              12.f };
-
-    Camera camera(glm::vec3(0.0f, 0.0f, 1.0f));
 
 #pragma region LIGHT INIT
     unsigned int VAO, VBO;
@@ -240,7 +253,6 @@ int main(void)
     lights.push_back(flashLight);
 
 #pragma endregion
-
 
     float lastFrame = 0.0f;
     float lastX = 1280.0f / 2.0f;
@@ -352,6 +364,10 @@ int main(void)
     delete light_shader;
     delete model_shader;
     delete wall_shader;
+    for (Light* light : lights) {
+        delete light;
+    }
+    lights.clear();
     glfwDestroyWindow(window);
     glfwTerminate();
     return 0;

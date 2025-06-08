@@ -7,20 +7,28 @@
 
 class Room
 {
+public:
+	Room(float x, float y, float z, float width, float height, float length, float thickness);
+	~Room();
+	void Draw();
+	void createWall(float x, float y, float z, float width, float height, float length, const std::string& diffuse, const std::string& normal, const std::string& roughness);
+
+	float getX() const { return x; }
+	float getY() const { return y; }
+	float getZ() const { return z; }
+	float getWidth() const { return width; }
+	float getHeight() const { return height; }
+	float getLength() const { return length; }
+	float getThickness() const { return thickness; }
+
 private:
 	Wall* floor;
 	std::vector<Wall*> walls;
 	float x, y, z;
 	float height;
 	float width;
-	float lenght;
+	float length;
 	float thickness;
 
-	void createWall(float x, float y, float z, float width, float height, float lenght);
-
-public:
-	Room(float x, float y, float z, float width, float height, float lenght, float thickness);
-	~Room();
-	void Draw();
 };
 
