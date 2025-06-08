@@ -136,6 +136,7 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Stb_image_impl.cpp" />
     <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>

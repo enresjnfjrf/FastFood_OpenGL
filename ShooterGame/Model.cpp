@@ -1,6 +1,5 @@
 #include "Model.h"
 
-#define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
 Model::Model(std::string path, bool isUV_flipped, bool gamma)

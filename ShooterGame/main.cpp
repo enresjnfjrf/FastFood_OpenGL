@@ -155,9 +155,9 @@ int main(void)
 
     //Model drone("model/drone/Drone.obj", false);
     Model BusterDrone("model/drone2/source/model/BusterDrone.obj", false);
-    Model People("model/small_people/people.obj", true);
+    Model People("model/people_small/people.obj", true);
     Model Donut("model/people_donut/obj file.obj", true);
-    Model Baran("model/baran/obj file.obj", true);
+    Model Baran("model/people_baran/obj file.obj", true);
 
     //Здание
     Building building;
@@ -173,11 +173,11 @@ int main(void)
     float length = mainRoom->getLength();
     float thickness = mainRoom->getThickness();
     mainRoom->createWall(x - thickness, y - thickness, z, width, thickness, length);
-    mainRoom->createWall(x, y, z, width, height / 3.0f, thickness);
+    /*mainRoom->createWall(x, y, z, width, height / 3.0f, thickness);
     mainRoom->createWall(x, y + (2.0f * height) / 3.0f, z, width, height / 3.0f, thickness);
     mainRoom->createWall(x - thickness, y, z - thickness, thickness, height, length);
     mainRoom->createWall(x - length - thickness, y, z + width, -width, height, thickness);
-    mainRoom->createWall(x - length - thickness, y, z + width, thickness, height, -length);
+    mainRoom->createWall(x - length - thickness, y, z + width, thickness, height, -length);*/
     building.addRoom(mainRoom);
 
     ModelTransform lightTrans = { glm::vec3(0.f, 0.f, 0.f),
@@ -220,7 +220,7 @@ int main(void)
 
     blueLight = new Light("BlueLamp", true);
     blueLight->initLikePointLight(
-        glm::vec3(0.0f, 0.0f, 0.0f),
+        glm::vec3(0.0f, 3.0f, 0.0f),
         glm::vec3(0.1f, 0.1f, 0.1f),
         glm::vec3(0.2f, 0.2f, 1.0f),
         glm::vec3(1.0f, 0.2f, 1.0f),
@@ -260,7 +260,7 @@ int main(void)
     glfwSetCursorPos(window, lastX, lastY);
     while (!glfwWindowShouldClose(window))
     {
-        //glClearColor(1.0f, 0.f, 1.f, 1.0f);
+        glClearColor(1.0f, 0.f, 1.f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         float currentFrame = glfwGetTime();
@@ -293,14 +293,14 @@ int main(void)
         glBindVertexArray(VAO);
 
         //RedLight
-        //lightTrans.position = redLight->getPosition();
-        //lightTrans.setScale(0.1f);
-        //model = glm::mat4(1.f);
-        //model = glm::translate(model, lightTrans.position);
-        //model = glm::scale(model, lightTrans.scale);
-        //light_shader->SetMatrix4F("model", model);
-        //light_shader->SetVec3("lightColor", glm::vec3(1.0f, 0.2f, 0.2f));
-        //glDrawArrays(GL_TRIANGLES, 0, 36);
+        lightTrans.position = redLight->getPosition();
+        lightTrans.setScale(0.1f);
+        model = glm::mat4(1.f);
+        model = glm::translate(model, lightTrans.position);
+        model = glm::scale(model, lightTrans.scale);
+        light_shader->SetMatrix4F("model", model);
+        light_shader->SetVec3("lightColor", glm::vec3(1.0f, 0.2f, 0.2f));
+        glDrawArrays(GL_TRIANGLES, 0, 36);
 
         ////BlueLight
         lightTrans.position = blueLight->getPosition();
@@ -311,34 +311,35 @@ int main(void)
         light_shader->SetVec3("lightColor", glm::vec3(0.2f, 0.2f, 1.0f));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
-        ////White_people model
-        //model = glm::mat4(1.f);
-        //model = glm::translate(model, glm::vec3(0.0f,0.0f,0.0f));
-        //model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
-        //model_shader->Use();
-        //model_shader->SetMatrix4F("pv", pv);
-        //model_shader->SetMatrix4F("model", model);
-        //model_shader->SetFloat("shininess", 64.0f);
-        //model_shader->SetVec3("viewPos", camera.GetPosition());
-        //People.Draw(model_shader);
+        //////White_people model
+        model = glm::mat4(1.f);
+        model = glm::translate(model, glm::vec3(0.0f,0.0f,0.0f));
+        model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+        model_shader->Use();
+        model_shader->SetMatrix4F("pv", pv);
+        model_shader->SetMatrix4F("model", model);
+        model_shader->SetFloat("shininess", 64.0f);
+        model_shader->SetVec3("viewPos", camera.GetPosition());
+        People.Draw(model_shader);
 
-        ////People_donut model
-        //model = glm::mat4(1.f);
-        //model = glm::translate(model, glm::vec3(1.5f, 0.0f, 0.0f));
-        //model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
-        //model_shader->SetMatrix4F("model", model);
-        //Donut.Draw(model_shader);
+        //////People_donut model
+        model = glm::mat4(1.f);
+        model = glm::translate(model, glm::vec3(1.5f, 0.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+        model_shader->SetMatrix4F("model", model);
+        Donut.Draw(model_shader);
 
-        ////Baran model
-        //model = glm::mat4(1.f);
-        //model = glm::translate(model, glm::vec3(-1.5f, 0.0f, 0.0f));
-        //model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
-        //model_shader->SetMatrix4F("model", model);
-        //Baran.Draw(model_shader);
+        //////Baran model
+        model = glm::mat4(1.f);
+        model = glm::translate(model, glm::vec3(-1.5f, 0.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+        model_shader->SetMatrix4F("model", model);
+        Baran.Draw(model_shader);
+
         //Здание
         model = glm::mat4(1.f);
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+        model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
         wall_shader->Use();
         wall_shader->SetMatrix4F("pv", pv);
         wall_shader->SetMatrix4F("model", model);

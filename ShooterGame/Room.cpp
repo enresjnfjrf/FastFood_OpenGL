@@ -9,62 +9,57 @@ Room::~Room() {
     walls.clear();
 }
 
-void Room::createWall(float x, float y, float z, float width, float height, float length,const std::string& diffuse, const std::string& normal, const std::string& roughness)
+void Room::createWall(float x, float y, float z, float width, float height, float length)
 {
     float y_h = y + height; // y + h
     float x_l = x - length; // x + l
     float z_w = z + width;  // z + w
     float wall[] = {
         // --- грань 1 (боковая передняя)
-        x,    y,    z,    0.0f, 0.0f,
-        x,    y_h,  z,    0.0f, 1.0f,
-        x,    y_h,  z_w,  1.0f, 1.0f,
-        x,    y_h,  z_w,  1.0f, 1.0f,
-        x,    y,    z_w,  1.0f, 0.0f,
-        x,    y,    z,    0.0f, 0.0f,
-
-        // --- грань 2 (боковая задняя)
-        x_l,  y,    z,    0.0f, 0.0f,
-        x_l,  y,    z_w,  1.0f, 0.0f,
-        x_l,  y_h,  z,    0.0f, 1.0f,
-        x_l,  y_h,  z,    0.0f, 1.0f,
-        x_l,  y,    z_w,  1.0f, 0.0f,
-        x_l,  y_h,  z_w,  1.0f, 1.0f,
-
-        // --- грань 3 (левая)
-        x,    y,    z,    0.0f, 0.0f,
-        x_l,  y,    z,    1.0f, 0.0f,
-        x_l,  y_h,  z,    1.0f, 1.0f,
-        x,    y,    z,    0.0f, 0.0f,
-        x_l,  y_h,  z,    1.0f, 1.0f,
-        x,    y_h,  z,    0.0f, 1.0f,
-
-        // --- грань 4 (правая)
-        x,    y,    z_w,  1.0f, 0.0f,
-        x,    y_h,  z_w,  1.0f, 1.0f,
-        x_l,  y_h,  z_w,  0.0f, 1.0f,
-        x,    y,    z_w,  1.0f, 0.0f,
-        x_l,  y_h,  z_w,  0.0f, 1.0f,
-        x_l,  y,    z_w,  0.0f, 0.0f,
-
-        // --- грань 5 (низ)
-        x,    y,    z,    0.0f, 0.0f,
-        x,    y,    z_w,  1.0f, 0.0f,
-        x_l,  y,    z_w,  1.0f, 1.0f,
-        x,    y,    z,    0.0f, 0.0f,
-        x_l,  y,    z_w,  1.0f, 1.0f,
-        x_l,  y,    z,    0.0f, 1.0f,
-
-        // --- грань 6 (верх)
-        x,    y_h,  z,    0.0f, 0.0f,
-        x_l,  y_h,  z,    1.0f, 0.0f,
-        x_l,  y_h,  z_w,  1.0f, 1.0f,
-        x,    y_h,  z,    0.0f, 0.0f,
-        x_l,  y_h,  z_w,  1.0f, 1.0f,
-        x,    y_h,  z_w,  0.0f, 1.0f
+        x,      y,       z,
+        x,      y_h,     z,
+        x,      y_h,     z_w,
+        x,      y_h,     z_w,
+        x,      y,       z_w,
+        x,      y,       z,
+        //
+        x_l,    y,       z,
+        x_l,    y,       z_w,
+        x_l,    y_h,     z,
+        x_l,    y_h,       z,
+        x_l,    y,       z_w,
+        x_l,    y_h,     z_w,
+        //
+        x,      y,       z,
+        x_l,    y,       z,
+        x_l,    y_h,     z,
+        x,      y,       z,
+        x_l,    y_h,     z,
+        x,      y_h,     z,
+        //
+        x,      y,       z_w,
+        x,      y_h,     z_w,
+        x_l,    y_h,     z_w,
+        x,      y,       z_w,
+        x_l,    y_h,     z_w,
+        x_l,    y,       z_w,
+        //
+        x,      y,       z,
+        x,      y,       z_w,
+        x_l,    y,       z_w,
+        x,      y,       z,
+        x_l,    y,       z_w,
+        x_l,    y,       z,
+        //
+        x,      y_h,     z,
+        x_l,    y_h,     z,
+        x_l,    y_h,     z_w,
+        x,      y_h,     z,
+        x_l,    y_h,     z_w,
+        x,      y_h,     z_w
     };
 
-    walls.push_back(new Wall(wall, sizeof(wall), diffuse, normal, roughness));
+    walls.push_back(new Wall(wall, sizeof(wall)));
 }
 
 void Room::Draw() {

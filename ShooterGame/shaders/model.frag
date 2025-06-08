@@ -108,4 +108,5 @@ void main()
         }
         frag_color += vec4(lresult, 1.0f);
     }
+
 }
