@@ -59,7 +59,7 @@ void processInput(GLFWwindow* window, Camera& camera, float deltaTime) {
         type_light = 2;
 }
 
-Light* flashLight, * blueLight, * redLight, * sunLight;
+Light* flashLight, * blueLight, * redLight, * sunLight, * lampLight;
 
 int main(void)
 {
@@ -154,13 +154,14 @@ int main(void)
     Shader* model_shader = new Shader("shaders\\model.vert", "shaders\\model.frag");
     Shader* wall_shader = new Shader("shaders\\wall.vert", "shaders\\wall.frag");
 
-    //Model drone("model/drone/Drone.obj", false);
-    Model BusterDrone("model/drone2/source/model/BusterDrone.obj", false);
+    Model drone("model/drone/Drone.obj", false);
+    //Model BusterDrone("model/drone2/source/model/BusterDrone.obj", false);
     Model People("model/people_small/people.obj", true);
     Model Donut("model/people_donut/obj file.obj", true);
-    Model Baran("model/people_baran/obj file.obj", true);
+    Model Baran("model/people_baran/baran.obj", true);
     Model Rope("model/rope/Velvet Rope Poles.obj", true);
 
+#pragma region Building
     //Здание
     Building building;
     //new Room(x, y, z, width, height, lenght, thickness);
@@ -205,15 +206,7 @@ int main(void)
     kitchenRoom->createWall(x - thickness, y, z + width, thickness, height, length, blackBrick_wall + "Bricks055_1K-JPG_Color.jpg", blackBrick_wall + "Bricks066_1K-JPG_NormalGL.jpg", blackBrick_wall + "Bricks066_1K-JPG_Roughness.jpg", 3.0f, 2.0f);
     building.addRoom(kitchenRoom);
 
-    ModelTransform lightTrans = { glm::vec3(0.f, 0.f, 0.f),
-                                  glm::vec3(0.f, 0.f, 0.f),
-                                  glm::vec3(0.3f, 0.3f, 0.3f)
-    };
-
-    Material cubeMaterial = { glm::vec3(0.25, 0.20725, 0.20725),
-                             glm::vec3(1, 0.829, 0.829),
-                             glm::vec3(0.296648, 0.296648, 0.296648),
-                             12.f };
+#pragma endregion
 
 #pragma region LIGHT INIT
     unsigned int VAO, VBO;
@@ -229,12 +222,23 @@ int main(void)
     glBindVertexArray(0);
 
     std::vector<Light*> lights;
-    int total_lights = 4;
+    int total_lights = 5;
     int active_lights = 0;
     
+    lampLight = new Light("Lamp", true);
+    lampLight->initLikePointLight(
+        glm::vec3(-3.0f, 0.3f, 1.5f),
+        glm::vec3(0.1f, 0.1f, 0.1f),
+        glm::vec3(0.8f, 0.8f, 0.7f),
+        glm::vec3(1.0f, 1.0f, 0.9f),
+        1.0f, 0.09f, 0.032f
+    );
+    //lampLight->turnOff();
+    lights.push_back(lampLight);
+
     redLight = new Light("RedLamp", true);
     redLight->initLikePointLight(
-        glm::vec3(0.0f, 0.0f, -1.0f),
+        glm::vec3(2.0f, 0.3f, 2.0f),
         glm::vec3(0.1f, 0.1f, 0.1f),
         glm::vec3(1.0f, 0.2f, 0.2f),
         glm::vec3(1.0f, 0.2f, 0.2f),
@@ -261,7 +265,7 @@ int main(void)
         glm::vec3(0.6f, 0.6f, 0.6f),
         glm::vec3(0.0f, 0.0f, 0.0f)
     );
-    //sunLight->turnOff();
+    sunLight->turnOff();
     lights.push_back(sunLight);
 
     flashLight = new Light("FlashLight", true);
@@ -278,6 +282,16 @@ int main(void)
     lights.push_back(flashLight);
 
 #pragma endregion
+
+    ModelTransform lightTrans = { glm::vec3(0.f, 0.f, 0.f),
+                                  glm::vec3(0.f, 0.f, 0.f),
+                                  glm::vec3(0.3f, 0.3f, 0.3f)
+    };
+
+    Material cubeMaterial = { glm::vec3(0.25, 0.20725, 0.20725),
+                             glm::vec3(1, 0.829, 0.829),
+                             glm::vec3(0.296648, 0.296648, 0.296648),
+                             12.f };
 
     float lastFrame = 0.0f;
     float lastX = 1280.0f / 2.0f;
@@ -317,6 +331,16 @@ int main(void)
         light_shader->SetMatrix4F("pv", pv);
         glBindVertexArray(VAO);
 
+        //LampLight
+        lightTrans.position = lampLight->getPosition();
+        lightTrans.setScale(0.3f);
+        model = glm::mat4(1.f);
+        model = glm::translate(model, lightTrans.position);
+        model = glm::scale(model, lightTrans.scale);
+        light_shader->SetMatrix4F("model", model);
+        light_shader->SetVec3("lightColor", glm::vec3(0.0f, 0.2f, 0.2f));
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
         //RedLight
         lightTrans.position = redLight->getPosition();
         lightTrans.setScale(0.1f);
@@ -350,14 +374,14 @@ int main(void)
 
         //////White_people model
         model = glm::mat4(1.f);
-        model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.0f));
+        model = glm::translate(model, glm::vec3(-4.0f, 0.0f, 2.5f));
         model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
         model_shader->SetMatrix4F("model", model);
         People.Draw(model_shader);
 
         //////People_donut model
         model = glm::mat4(1.f);
-        model = glm::translate(model, glm::vec3(1.5f, 0.0f, -1.0f));
+        model = glm::translate(model, glm::vec3(-2.5f, 0.0f, 3.5f));
         model = glm::scale(model, glm::vec3(0.01f, 0.01f, 0.01f));
         model_shader->SetMatrix4F("model", model);
         Donut.Draw(model_shader);

@@ -1,4 +1,4 @@
-#version 460 core
+﻿#version 460 core
 
 struct Light{
 	int type;
@@ -41,58 +41,55 @@ float getAtten(int i)
 
 vec3 CalcDiffusePlusSpecular(int i, vec3 lightDir)
 {
-    vec3 norm = texture(texture_normal1, texCoords).rgb;
-    norm = normalize(norm * 2.0f - 1.0f);
-    norm = normalize(TBN * norm);
-    //vec3 norm = normalize(vertNormal);
+    vec3 norm = normalize(vertNormal);
     float diff_koef = max(dot(norm, lightDir), 0.0);
     vec3 diffuse = light[i].diffuse * diff_koef * vec3(texture(texture_diffuse1, texCoords));
 
-    // specular
     vec3 reflectDir = reflect(lightDir, norm);
-    vec3 viewDir = normalize(fragPos-viewPos);
+    vec3 viewDir = normalize(fragPos - viewPos);
     float spec_koef = pow(max(dot(viewDir, reflectDir), 0.0f), shininess);
     vec3 specular = light[i].specular * spec_koef * vec3(texture(texture_specular1, texCoords));
 
     return diffuse + specular;
 }
 
+
 void main()
 {
-    vec3 result = vec3(0.0);
-    vec3 lresult;
-    for (int i = 0; i<lights_count; i++)
+    vec3 result = vec3(0.0); // ← инициализируем результирующий цвет
+
+    for (int i = 0; i < lights_count; i++)
     {
+        vec3 lresult = vec3(0.0);
+
         if (light[i].type == 1) // Directional Light
         {
             vec3 lightDir = -light[i].direction;
-
             vec3 ambient = light[i].ambient * texture(texture_diffuse1, texCoords).rgb;
             vec3 diffspec = CalcDiffusePlusSpecular(i, lightDir);
-
             lresult = ambient + diffspec;
         }
         else 
         { 
             vec3 lightDir = normalize(light[i].position - fragPos);
+
             if (light[i].type == 2) // Point Light
             {
                 float attenuation = getAtten(i);
                 vec3 ambient = light[i].ambient * vec3(texture(texture_diffuse1, texCoords));
                 vec3 diffspec = CalcDiffusePlusSpecular(i, lightDir);
-
                 lresult = (ambient + diffspec) * attenuation;
             }
             else if (light[i].type == 3) // SpotLight
             {
                 float angle = acos(dot(lightDir, normalize(-light[i].direction)));
 
-                if (angle <= light[i].cutOff*2.0f)
+                if (angle <= light[i].cutOff * 2.0f)
                 {
-                    float koef  = 1.0f;
+                    float koef = 1.0f;
                     if (angle >= light[i].cutOff)
                     {
-                        koef = (light[i].cutOff*2.0f - angle) / light[i].cutOff;
+                        koef = (light[i].cutOff * 2.0f - angle) / light[i].cutOff;
                     }
 
                     float attenuation = getAtten(i);
@@ -103,11 +100,13 @@ void main()
                 }
                 else
                 {
-                    lresult =  vec3(texture(texture_diffuse1, texCoords)) * light[i].ambient;
+                    lresult = vec3(texture(texture_diffuse1, texCoords)) * light[i].ambient;
                 }
             }
         }
-        result += vec3(lresult);
+
+        result += lresult;
     }
+
     frag_color = vec4(result, 1.0);
 }

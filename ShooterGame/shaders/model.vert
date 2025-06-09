@@ -20,9 +20,4 @@ void main()
 	vertNormal = mat3(model) * inVertNormal;
 	texCoords = inTexCoords;
 	fragPos = vertPos.xyz;
-	vec3 T = normalize((model * vec4(inTangent, 0.0f)).xyz);
-	vec3 B = normalize((model * vec4(inBiTangent, 0.0f)).xyz);
-	vec3 N = normalize((model * vec4(inVertNormal, 0.0f)).xyz);
-
-	TBN = mat3(T,B,N);
 }
