@@ -41,18 +41,21 @@ float getAtten(int i)
 
 vec3 CalcDiffusePlusSpecular(int i, vec3 lightDir)
 {
+    //vec3 norm = texture(texture_normal1, texCoords).rgb;
+    //norm = normalize(norm * 2.0f - 1.0f);
+
     vec3 norm = normalize(vertNormal);
     float diff_koef = max(dot(norm, lightDir), 0.0);
     vec3 diffuse = light[i].diffuse * diff_koef * vec3(texture(texture_diffuse1, texCoords));
 
+    // specular
     vec3 reflectDir = reflect(lightDir, norm);
-    vec3 viewDir = normalize(fragPos - viewPos);
+    vec3 viewDir = normalize(fragPos-viewPos);
     float spec_koef = pow(max(dot(viewDir, reflectDir), 0.0f), shininess);
     vec3 specular = light[i].specular * spec_koef * vec3(texture(texture_specular1, texCoords));
 
     return diffuse + specular;
 }
-
 
 void main()
 {

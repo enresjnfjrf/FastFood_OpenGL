@@ -238,13 +238,13 @@ int main(void)
 
     redLight = new Light("RedLamp", true);
     redLight->initLikePointLight(
-        glm::vec3(2.0f, 0.3f, 2.0f),
+        glm::vec3(-3.0f, 0.3f, 4.0f),
         glm::vec3(0.1f, 0.1f, 0.1f),
         glm::vec3(1.0f, 0.2f, 0.2f),
         glm::vec3(1.0f, 0.2f, 0.2f),
         1.0f, 0.1f, 0.09f
         );
-    redLight->turnOff();
+    //redLight->turnOff();
     lights.push_back(redLight);
 
     blueLight = new Light("BlueLamp", true);
@@ -371,25 +371,25 @@ int main(void)
 
         model_shader->Use();
         model_shader->SetMatrix4F("pv", pv);
-
+        glm::vec3 modelScale(0.05f, 0.05f, 0.05f);
         //////White_people model
         model = glm::mat4(1.f);
         model = glm::translate(model, glm::vec3(-4.0f, 0.0f, 2.5f));
-        model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+        model = glm::scale(model, modelScale);
         model_shader->SetMatrix4F("model", model);
         People.Draw(model_shader);
 
         //////People_donut model
         model = glm::mat4(1.f);
         model = glm::translate(model, glm::vec3(-2.5f, 0.0f, 3.5f));
-        model = glm::scale(model, glm::vec3(0.01f, 0.01f, 0.01f));
+        model = glm::scale(model, modelScale);
         model_shader->SetMatrix4F("model", model);
         Donut.Draw(model_shader);
 
         //////Baran model
         model = glm::mat4(1.f);
-        model = glm::translate(model, glm::vec3(-1.5f, 0.0f, 0.5f));
-        model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+        model = glm::translate(model, glm::vec3(-1.5f, 0.05f, 0.5f));
+        model = glm::scale(model, modelScale);
         model_shader->SetMatrix4F("model", model);
         Baran.Draw(model_shader);
 
