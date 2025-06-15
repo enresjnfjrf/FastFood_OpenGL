@@ -181,13 +181,13 @@ int main(void)
     std::string black_floor = "texture/black_floor/";
     std::string matte_cashRegister = "texture/matte_cashRegister/";
     std::string blackBrick_wall = "texture/black_brick_wall/";
-    mainRoom->createWall(x - thickness, y - thickness, z, width, thickness, length, black_floor + "Wood049_2K-JPG_Color.jpg", black_floor + "Tiles007_2K-JPG_NormalGL.jpg", black_floor + "Tiles007_2K-JPG_Roughness.jpg",7.0f,6.0f);//Пол
-    mainRoom->createWall(x - thickness, y + height, z, width, thickness, length, black_floor + "Wood049_2K-JPG_Color.jpg", black_floor + "Tiles007_2K-JPG_NormalGL.jpg", black_floor + "Tiles007_2K-JPG_Roughness.jpg",7.0f,6.0f);//Потолок
+    mainRoom->createWall(x - thickness, y - thickness, z, width, thickness, length, black_floor + "Wood049_2K-JPG_Color.jpg", black_floor + "Wood049_2K-JPG_NormalGL.jpg", black_floor + "Wood049_2K-JPG_Roughness.jpg",7.0f,6.0f);//Пол
+    mainRoom->createWall(x - thickness, y + height, z, width, thickness, length, black_floor + "Wood049_2K-JPG_Color.jpg", black_floor + "Wood049_2K-JPG_NormalGL.jpg", black_floor + "Wood049_2K-JPG_Roughness.jpg",7.0f,6.0f);//Потолок
     mainRoom->createWall(x, y, z, width - 4.5f, height / 4.0f, thickness, matte_cashRegister + "Plaster006_1K-JPG_Color.jpg", matte_cashRegister + "Plaster006_1K-JPG_NormalGL.jpg", matte_cashRegister + "Plaster006_1K-JPG_Roughness.jpg", 1.5f, 1.0f);
     mainRoom->createWall(x, y + (5.0f * height) / 6.0f, z, width - 4.5f, height / 6.0f, thickness, matte_cashRegister + "Plaster006_1K-JPG_Color.jpg", matte_cashRegister + "Plaster006_1K-JPG_NormalGL.jpg", matte_cashRegister + "Plaster006_1K-JPG_Roughness.jpg", 1.5f, 1.0f);
-    mainRoom->createWall(x - thickness, y, z - thickness, thickness, height, length, blackBrick_wall + "Bricks055_1K-JPG_Color.jpg", blackBrick_wall + "Bricks066_1K-JPG_NormalGL.jpg", blackBrick_wall + "Bricks066_1K-JPG_Roughness.jpg",3.0f, 2.0f);
-    mainRoom->createWall(x - length - thickness, y, z, width, height, thickness, blackBrick_wall + "Bricks055_1K-JPG_Color.jpg", blackBrick_wall + "Bricks066_1K-JPG_NormalGL.jpg", blackBrick_wall + "Bricks066_1K-JPG_Roughness.jpg",3.0f, 2.0f);
-    mainRoom->createWall(x - thickness, y, z + width, thickness, height, length, blackBrick_wall + "Bricks055_1K-JPG_Color.jpg", blackBrick_wall + "Bricks066_1K-JPG_NormalGL.jpg", blackBrick_wall + "Bricks066_1K-JPG_Roughness.jpg",3.0f, 2.0f);
+    mainRoom->createWall(x - thickness, y, z - thickness, thickness, height, length, blackBrick_wall + "Bricks055_1K-JPG_Color.jpg", blackBrick_wall + "Bricks055_1K-JPG_NormalGL.jpg", blackBrick_wall + "Bricks055_1K-JPG_Roughness",3.0f, 2.0f);
+    mainRoom->createWall(x - length - thickness, y, z, width, height, thickness, blackBrick_wall + "Bricks055_1K-JPG_Color.jpg", blackBrick_wall + "Bricks055_1K-JPG_NormalGL.jpg", blackBrick_wall + "Bricks055_1K-JPG_Roughness.jpg",6.0f, 2.0f);
+    mainRoom->createWall(x - thickness, y, z + width, thickness, height, length, blackBrick_wall + "Bricks055_1K-JPG_Color.jpg", blackBrick_wall + "Bricks055_1K-JPG_NormalGL.jpg", blackBrick_wall + "Bricks055_1K-JPG_Roughness.jpg",3.0f, 2.0f);
     building.addRoom(mainRoom);
 
     //KitchenRoom
@@ -199,11 +199,11 @@ int main(void)
     height = kitchenRoom->getHeight();
     length = kitchenRoom->getLength();
     thickness = kitchenRoom->getThickness();
-    kitchenRoom->createWall(x, y - thickness, z, width, thickness, length, black_floor + "Wood049_2K-JPG_Color.jpg", black_floor + "Tiles007_2K-JPG_NormalGL.jpg", black_floor + "Tiles007_2K-JPG_Roughness.jpg", 7.0f, 6.0f); //Пол
-    kitchenRoom->createWall(x, y + height, z, width, thickness, length, black_floor + "Wood049_2K-JPG_Color.jpg", black_floor + "Tiles007_2K-JPG_NormalGL.jpg", black_floor + "Tiles007_2K-JPG_Roughness.jpg", 7.0f, 6.0f); //потолок
-    kitchenRoom->createWall(x, y, z, width, height, thickness, blackBrick_wall + "Bricks055_1K-JPG_Color.jpg", blackBrick_wall + "Bricks066_1K-JPG_NormalGL.jpg", blackBrick_wall + "Bricks066_1K-JPG_Roughness.jpg", 1.0f, 2.0f);
-    kitchenRoom->createWall(x - thickness, y, z - thickness, thickness, height, length, blackBrick_wall + "Bricks055_1K-JPG_Color.jpg", blackBrick_wall + "Bricks066_1K-JPG_NormalGL.jpg", blackBrick_wall + "Bricks066_1K-JPG_Roughness.jpg", 3.0f, 2.0f);
-    kitchenRoom->createWall(x - thickness, y, z + width, thickness, height, length, blackBrick_wall + "Bricks055_1K-JPG_Color.jpg", blackBrick_wall + "Bricks066_1K-JPG_NormalGL.jpg", blackBrick_wall + "Bricks066_1K-JPG_Roughness.jpg", 3.0f, 2.0f);
+    kitchenRoom->createWall(x, y - thickness, z, width, thickness, length, black_floor + "Wood049_2K-JPG_Color.jpg", black_floor + "Wood049_2K-JPG_NormalGL.jpg", black_floor + "Wood049_2K-JPG_Roughness.jpg", 7.0f, 6.0f); //Пол
+    kitchenRoom->createWall(x, y + height, z, width, thickness, length, black_floor + "Wood049_2K-JPG_Color.jpg", black_floor + "Wood049_2K-JPG_NormalGL.jpg", black_floor + "Wood049_2K-JPG_Roughness.jpg", 7.0f, 6.0f); //потолок
+    kitchenRoom->createWall(x, y, z, width, height, thickness, blackBrick_wall + "Bricks055_1K-JPG_Color.jpg", blackBrick_wall + "Bricks055_1K-JPG_NormalGL.jpg", blackBrick_wall + "Bricks055_1K-JPG_Roughness.jpg", 3.0f, 2.0f);
+    kitchenRoom->createWall(x - thickness, y, z - thickness, thickness, height, length, blackBrick_wall + "Bricks055_1K-JPG_Color.jpg", blackBrick_wall + "Bricks055_1K-JPG_NormalGL.jpg", blackBrick_wall + "Bricks055_1K-JPG_Roughness.jpg", 3.0f, 2.0f);
+    kitchenRoom->createWall(x - thickness, y, z + width, thickness, height, length, blackBrick_wall + "Bricks055_1K-JPG_Color.jpg", blackBrick_wall + "Bricks055_1K-JPG_NormalGL.jpg", blackBrick_wall + "Bricks055_1K-JPG_Roughness.jpg", 3.0f, 2.0f);
     building.addRoom(kitchenRoom);
 
 #pragma endregion
@@ -224,10 +224,11 @@ int main(void)
     std::vector<Light*> lights;
     int total_lights = 5;
     int active_lights = 0;
+    int active_lights2 = 0;
     
     lampLight = new Light("Lamp", true);
     lampLight->initLikePointLight(
-        glm::vec3(-3.0f, 0.3f, 1.5f),
+        glm::vec3(-2.0f, 1.25f, 1.2f),
         glm::vec3(0.1f, 0.1f, 0.1f),
         glm::vec3(0.8f, 0.8f, 0.7f),
         glm::vec3(1.0f, 1.0f, 0.9f),
@@ -235,16 +236,16 @@ int main(void)
     );
     //lampLight->turnOff();
     lights.push_back(lampLight);
-
+   
     redLight = new Light("RedLamp", true);
     redLight->initLikePointLight(
-        glm::vec3(-3.0f, 0.3f, 4.0f),
+        glm::vec3(-3.0f, 1.3f, 4.0f),
         glm::vec3(0.1f, 0.1f, 0.1f),
         glm::vec3(1.0f, 0.2f, 0.2f),
         glm::vec3(1.0f, 0.2f, 0.2f),
         1.0f, 0.1f, 0.09f
         );
-    //redLight->turnOff();
+   redLight->turnOff();
     lights.push_back(redLight);
 
     blueLight = new Light("BlueLamp", true);
@@ -401,11 +402,21 @@ int main(void)
         Rope.Draw(model_shader);
 
         active_lights = 0;
+        model_shader->Use();
         for (int i = 0; i < lights.size(); i++)
         {
             active_lights += lights[i]->putInshader(model_shader, active_lights);
         }
         model_shader->SetInt("lights_count", active_lights);
+        
+        // Для wall_shader
+        active_lights = 0;
+        wall_shader->Use();
+        for (int i = 0; i < lights.size(); i++)
+        {
+            active_lights += lights[i]->putInshader(wall_shader, active_lights);
+        }
+        wall_shader->SetInt("lights_count", active_lights);
 
         //backpack.Draw(model_shader);
         //chair.Draw(model_shader);
